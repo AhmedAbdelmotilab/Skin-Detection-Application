@@ -1,3 +1,4 @@
+import 'package:blocauth/model/TfliteModel.dart';
 import 'package:blocauth/provider/sign_in_provider.dart';
 import 'package:blocauth/screens/login_screen.dart';
 import 'package:blocauth/utils/next_screen.dart';
@@ -56,6 +57,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   nextScreenReplace(context, const LoginScreen());
                 },
                   child: const Text("Sign out",style:TextStyle(color: Colors.white),),
+                ),
+                ElevatedButton(onPressed:(){
+                  nextScreenReplace(context, const TfliteModel());
+                },
+                  child: const Text("Test Your Skin ",style:TextStyle(color: Colors.white),),
                 )
             ],
           ),
