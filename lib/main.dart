@@ -5,8 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-void main() async
-{
+void main() async {
   //intialize the application
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -20,10 +19,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-       ChangeNotifierProvider(create: ((context)=>SignInProvider()),
-       ),
-       ChangeNotifierProvider(create: ((context)=>InternetProvider()),
-       ),
+        ChangeNotifierProvider(
+          create: ((context) => SignInProvider()),
+        ),
+        ChangeNotifierProvider(
+          create: ((context) => InternetProvider()),
+        ),
       ],
       child: const MaterialApp(
         home: SplashScreen(),

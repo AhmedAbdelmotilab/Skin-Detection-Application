@@ -15,33 +15,31 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   //init state
   @override
   void initState() {
-    final sp=context.read<SignInProvider>();
+    final sp = context.read<SignInProvider>();
     super.initState();
     //create atimer of 2 sec
-    Timer(const Duration(seconds: 2),(){
-      sp.isSignedIn == false ? nextScreen(context,const LoginScreen())
-      : nextScreen(context,const HomeScreen());
-
+    Timer(const Duration(seconds: 2), () {
+      sp.isSignedIn == false
+          ? nextScreen(context, const LoginScreen())
+          : nextScreen(context, const HomeScreen());
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       body: SafeArea(
         child: Center(
           child: Image(
-            image:AssetImage(Config.app_icon),
+            image: AssetImage(Config.app_icon),
             height: 250,
             width: 250,
-            ),
+          ),
         ),
       ),
-
     );
   }
 }
