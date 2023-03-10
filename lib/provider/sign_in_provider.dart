@@ -233,7 +233,7 @@ class SignInProvider extends ChangeNotifier {
     _name = name;
     _email = email;
     _imageurl =
-        "https://winaero.com/blog/wp-content/uploads/2017/12/User-icon-256-blue.png";
+        "https://firebasestorage.googleapis.com/v0/b/blocauth-5963f.appspot.com/o/logo.png?alt=media&token=6e0b938b-e4be-4783-9562-1be95d46f0c3";
     _uid = user.phoneNumber;
     _provider = "PHONE";
     notifyListeners();

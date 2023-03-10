@@ -5,7 +5,7 @@
 
 
    <application
-        android:label="blocauth"
+        android:label="Skin Detection"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
