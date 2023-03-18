@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -57,12 +58,12 @@ class SignInProvider extends ChangeNotifier {
   }
 
   //Sign IN WITH GOOGLE
-  Future signInWithGoogle() async {
-    final GoogleSignInAccount? googleSignInAccount =
-        await googleSignin.signIn();
-    if (googleSignInAccount != null) {
-      //execute our authentication
-      try {
+  Future<void> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleSignInAccount =
+          await googleSignin.signIn();
+
+      if (googleSignInAccount != null) {
         final GoogleSignInAuthentication googleSignInAuthentication =
             await googleSignInAccount.authentication;
 
@@ -70,11 +71,10 @@ class SignInProvider extends ChangeNotifier {
           accessToken: googleSignInAuthentication.accessToken,
           idToken: googleSignInAuthentication.idToken,
         );
-        //sign in to firebase user instance
-        final User userDetails =
-            (await firebaseAuth.signInWithCredential(credential)).user!;
 
-        //now save all the values
+        final UserCredential userCredential =
+            await firebaseAuth.signInWithCredential(credential);
+        final User userDetails = userCredential.user!;
 
         _name = userDetails.displayName;
         _email = userDetails.email;
@@ -82,26 +82,27 @@ class SignInProvider extends ChangeNotifier {
         _provider = "GOOGLE";
         _uid = userDetails.uid;
         notifyListeners();
-      } on FirebaseAuthException catch (e) {
-        switch (e.code) {
-          case "account-exists-with-different-credential":
-            _errorCode = "You are already have an account with us.";
-            _hasError = true;
-            notifyListeners();
-            break;
-
-          case "null":
-            _errorCode = "unexpected error while trying to sign in";
-            _hasError = true;
-            notifyListeners();
-            break;
-          default:
-            _errorCode = e.toString();
-            _hasError = true;
-            notifyListeners();
-        }
+      } else {
+        // User cancelled the sign-in process
+        _errorCode = "You cancelled";
+        _hasError = true;
+        notifyListeners();
       }
-    } else {
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case "account-exists-with-different-credential":
+          _errorCode = "You already have an account with us.";
+          _hasError = true;
+          notifyListeners();
+          break;
+        default:
+          _errorCode = e.toString();
+          _hasError = true;
+          notifyListeners();
+          break;
+      }
+    } catch (e) {
+      _errorCode = "Unexpected error while trying to sign in";
       _hasError = true;
       notifyListeners();
     }
@@ -134,9 +135,13 @@ class SignInProvider extends ChangeNotifier {
             _hasError = true;
             notifyListeners();
             break;
-
+          case "CANCELLED":
+            _errorCode = "You cancelled the operation.";
+            _hasError = true;
+            notifyListeners();
+            break;
           case "null":
-            _errorCode = "unexpected error while trying to sign in";
+            _errorCode = "Unexpected error while trying to sign in";
             _hasError = true;
             notifyListeners();
             break;
@@ -145,12 +150,19 @@ class SignInProvider extends ChangeNotifier {
             _hasError = true;
             notifyListeners();
         }
+      } on PlatformException catch (e) {
+        if (e.code == "sign_in_canceled") {
+          _errorCode = "You cancelled the operation.";
+          _hasError = true;
+          notifyListeners();
+        }
       }
     } else {
       _hasError = true;
       notifyListeners();
     }
   }
+
   //Entry for cloudfirestore
 
   Future getUserDataFromFirestore(uid) async {

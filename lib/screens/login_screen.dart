@@ -30,148 +30,156 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldkey,
-      backgroundColor: Colors.white,
-      body: SafeArea(
-          child: Padding(
-        padding:
-            const EdgeInsets.only(left: 48, right: 48, top: 90, bottom: 30),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Flexible(
-              flex: 2,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Image(
-                    image: AssetImage(Config.app_icon),
-                    height: 80,
-                    width: 80,
-                    fit: BoxFit.cover,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const Text("Welcome To Skin Detection App",
-                      style:
-                          TextStyle(fontSize: 25, fontWeight: FontWeight.w500)),
-                  const SizedBox(height: 10),
-                  const Text("Be Safe , Be Comfortable",
-                      style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w500)),
-                ],
-              ),
+      body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(Config.app_icon),
+              fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(
+                  Colors.black.withOpacity(0.07), BlendMode.darken),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
+          ),
+          child: Padding(
+            padding:
+                const EdgeInsets.only(left: 48, right: 48, top: 90, bottom: 30),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                RoundedLoadingButton(
-                  onPressed: () {
-                    handleGoogleSignIn();
-                  },
-                  controller: googleController,
-                  successColor: Colors.red,
-                  width: MediaQuery.of(context).size.width * 0.80,
-                  elevation: 0,
-                  borderRadius: 25,
-                  color: Colors.red,
-                  child: Wrap(
-                    children: const [
-                      Icon(
-                        FontAwesomeIcons.google,
-                        size: 20,
-                        color: Colors.white,
+                Flexible(
+                  flex: 2,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image(
+                        image: AssetImage(Config.app_icon),
+                        height: 80,
+                        width: 80,
+                        fit: BoxFit.cover,
+                        color: const Color.fromRGBO(68, 138, 255, 1),
                       ),
-                      SizedBox(
-                        width: 15,
+                      const SizedBox(
+                        height: 20,
                       ),
-                      Text(
-                        "sign in with google",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500),
-                      )
+                      const Text("Welcome To Skin Detection App",
+                          style: TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.w500)),
+                      const SizedBox(height: 10),
+                      const Text("Be Safe , Be Comfortable",
+                          style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w500)),
                     ],
                   ),
                 ),
-                //facebook button
-                const SizedBox(
-                  height: 10,
-                ),
-                RoundedLoadingButton(
-                  onPressed: () {
-                    handleFacebookAuth();
-                  },
-                  controller: facebookController,
-                  successColor: Colors.blue,
-                  width: MediaQuery.of(context).size.width * 0.80,
-                  elevation: 0,
-                  borderRadius: 25,
-                  color: Colors.blue,
-                  child: Wrap(
-                    children: const [
-                      Icon(
-                        FontAwesomeIcons.facebook,
-                        size: 20,
-                        color: Colors.white,
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Text(
-                        "sign in with facebook",
-                        style: TextStyle(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RoundedLoadingButton(
+                      onPressed: () {
+                        handleGoogleSignIn();
+                      },
+                      controller: googleController,
+                      successColor: Colors.red,
+                      width: MediaQuery.of(context).size.width * 0.80,
+                      elevation: 0,
+                      borderRadius: 25,
+                      color: Colors.red,
+                      child: Wrap(
+                        children: const [
+                          Icon(
+                            FontAwesomeIcons.google,
+                            size: 20,
                             color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500),
-                      )
-                    ],
-                  ),
-                ),
-                //phone otp
-                const SizedBox(
-                  height: 10,
-                ),
-                RoundedLoadingButton(
-                  onPressed: () {
-                    nextScreenReplace(context, const PhoneAuthScreen());
-                    phoneController.reset();
-                  },
-                  controller: phoneController,
-                  successColor: Colors.black,
-                  width: MediaQuery.of(context).size.width * 0.80,
-                  elevation: 0,
-                  borderRadius: 25,
-                  color: Colors.black,
-                  child: Wrap(
-                    children: const [
-                      Icon(
-                        FontAwesomeIcons.phone,
-                        size: 20,
-                        color: Colors.white,
+                          ),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Text(
+                            "sign in with google",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500),
+                          )
+                        ],
                       ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Text(
-                        "sign in with phone",
-                        style: TextStyle(
+                    ),
+                    //facebook button
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    RoundedLoadingButton(
+                      onPressed: () {
+                        handleFacebookAuth();
+                      },
+                      controller: facebookController,
+                      successColor: Colors.blue,
+                      width: MediaQuery.of(context).size.width * 0.80,
+                      elevation: 0,
+                      borderRadius: 25,
+                      color: Colors.blue,
+                      child: Wrap(
+                        children: const [
+                          Icon(
+                            FontAwesomeIcons.facebook,
+                            size: 20,
                             color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500),
-                      )
-                    ],
-                  ),
+                          ),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Text(
+                            "sign in with facebook",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500),
+                          )
+                        ],
+                      ),
+                    ),
+                    //phone otp
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    RoundedLoadingButton(
+                      onPressed: () {
+                        nextScreenReplace(context, const PhoneAuthScreen());
+                        phoneController.reset();
+                      },
+                      controller: phoneController,
+                      successColor: Colors.black,
+                      width: MediaQuery.of(context).size.width * 0.80,
+                      elevation: 0,
+                      borderRadius: 25,
+                      color: Colors.black,
+                      child: Wrap(
+                        children: const [
+                          Icon(
+                            FontAwesomeIcons.phone,
+                            size: 20,
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Text(
+                            "sign in with phone",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
-        ),
-      )),
+          )),
     );
   }
 

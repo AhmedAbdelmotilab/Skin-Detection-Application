@@ -8,6 +8,7 @@ import 'package:blocauth/utils/snack_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 class PhoneAuthScreen extends StatefulWidget {
   const PhoneAuthScreen({super.key});
@@ -22,12 +23,12 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController otpCodeController = TextEditingController();
-
+  String? _emailValidationError;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: const Color.fromARGB(255, 99, 131, 147),
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
@@ -36,7 +37,18 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
             nextScreenReplace(context, const LoginScreen());
           },
         ),
+        centerTitle: true, // set this property to true to center the title
+        title: const Text(
+          'Registration ',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 20, // set the font size
+            fontFamily: 'Open Sans', // set the font family
+          ),
+        ),
       ),
+      backgroundColor: Colors.blueGrey,
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(25),
@@ -46,16 +58,18 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image(
-                  image: AssetImage(Config.app_icon),
-                  height: 80,
-                  width: 80,
+                Center(
+                  child: Image(
+                    image: AssetImage(Config.app_icon),
+                    height: 80,
+                    width: 80,
+                  ),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 const Text(
-                  "Phone Login",
+                  "Welcome to the application",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(
@@ -72,6 +86,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                   controller: nameController,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
+                    labelText: "Enter Your First And Last Name",
                     prefixIcon: const Icon(Icons.account_circle),
                     hintText: "First and Last Name",
                     hintStyle: const TextStyle(color: Colors.blueGrey),
@@ -94,15 +109,25 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                 ),
                 TextFormField(
                   validator: (value) {
-                    if (value!.isEmpty) {
+                    if (value == null || value.isEmpty) {
                       return "Email address cannot be empty";
+                    } else if (!RegExp(r'^\S+@\S+\.\S+$').hasMatch(value)) {
+                      setState(() {
+                        _emailValidationError =
+                            'Please enter a valid email address';
+                      });
+                      return _emailValidationError;
                     } else {
+                      setState(() {
+                        _emailValidationError = null;
+                      });
                       return null;
                     }
                   },
                   controller: emailController,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
+                    labelText: "Enter Your Email Address",
                     prefixIcon: const Icon(Icons.email),
                     hintText: "example@example.com",
                     hintStyle: const TextStyle(color: Colors.blueGrey),
@@ -118,24 +143,16 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                       borderRadius: BorderRadius.circular(8),
                       borderSide: const BorderSide(color: Colors.grey),
                     ),
+                    errorText: _emailValidationError,
                   ),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                TextFormField(
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "Phone cannot be empty";
-                    } else {
-                      return null;
-                    }
-                  },
-                  controller: phoneController,
-                  textInputAction: TextInputAction.done,
+                IntlPhoneField(
                   decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.phone),
-                    hintText: "+20-1234567890",
+                    labelText: "Enter Your Phone Number",
+                    hintText: "1234567890",
                     hintStyle: const TextStyle(color: Colors.blueGrey),
                     errorBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
@@ -150,6 +167,11 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                       borderSide: const BorderSide(color: Colors.grey),
                     ),
                   ),
+                  initialCountryCode: 'EG', // set the default country code
+                  onChanged: (phone) {
+                    // update the controller value with the full phone number
+                    phoneController.text = phone.completeNumber;
+                  },
                 ),
                 const SizedBox(
                   height: 10,
@@ -158,8 +180,24 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                   onPressed: () {
                     login(context, phoneController.text.trim());
                   },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                  child: const Text("Register"),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue.shade800,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25.0),
+                    ),
+                    elevation: 5.0,
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 16.0, horizontal: 32.0),
+                  ),
+                  child: const Text(
+                    'Register',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.0,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -229,7 +267,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                               // SAVE THE DATA
                               sp.phonNumberUser(user, emailController.text,
                                   nameController.text);
-                              //checking if the user is existing or not
+                              //Checking whether the user exists or not.
                               sp.checkUserExists().then((value) async {
                                 if (value == true) {
                                   //user exist
