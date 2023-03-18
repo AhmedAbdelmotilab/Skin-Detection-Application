@@ -1,5 +1,6 @@
 // ignore_for_file: unnecessary_import
 import 'dart:io';
+import 'package:blocauth/model/doctors.dart';
 import 'package:blocauth/screens/home_screen.dart';
 import 'package:blocauth/utils/config.dart';
 import 'package:blocauth/utils/next_screen.dart';
@@ -184,6 +185,25 @@ class _TfliteModelState extends State<TfliteModel> {
                         },
                       ),
                   ],
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  nextScreenReplace(context, const FirebaseDataScreen());
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 30,
+                    vertical: 15,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                child: const Text(
+                  "Show doctors",
+                  style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
               ),
             ],
