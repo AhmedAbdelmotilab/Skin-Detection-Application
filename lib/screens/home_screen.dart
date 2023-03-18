@@ -28,82 +28,93 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final sp = context.watch<SignInProvider>();
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(Config.app_icon),
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
-                Colors.black.withOpacity(0.04), BlendMode.darken),
-          ),
-        ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              CircleAvatar(
-                backgroundColor: Colors.white,
-                backgroundImage: NetworkImage("${sp.imageurl}"),
-                radius: 50,
+    return WillPopScope(
+        onWillPop: () async {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('You cannot go back until you sign out.'),
+              duration: Duration(seconds: 3),
+              backgroundColor: Colors.red,
+            ),
+          );
+          return false;
+        },
+        child: Scaffold(
+          body: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(Config.app_icon),
+                fit: BoxFit.cover,
+                colorFilter: ColorFilter.mode(
+                    Colors.black.withOpacity(0.04), BlendMode.darken),
               ),
-              const SizedBox(height: 20),
-              Text(
-                "Welcome ${sp.name}",
-                style:
-                    const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 10),
-              ListTile(
-                leading: const Icon(Icons.email),
-                title: Text(
-                  "${sp.email}",
-                  style: const TextStyle(fontWeight: FontWeight.w500),
-                ),
-                subtitle: Text(
-                  "Provider: ${sp.provider}".toUpperCase(),
-                  style: const TextStyle(color: Colors.red),
-                ),
-              ),
-              const SizedBox(height: 30),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      sp.userSignOut();
-                      nextScreenReplace(context, const LoginScreen());
-                    },
-                    icon: const Icon(Icons.logout),
-                    color: Colors.red,
+            ),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  CircleAvatar(
+                    backgroundColor: Colors.white,
+                    backgroundImage: NetworkImage("${sp.imageurl}"),
+                    radius: 50,
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      nextScreenReplace(context, const TfliteModel());
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 30,
-                        vertical: 15,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
+                  const SizedBox(height: 20),
+                  Text(
+                    "Welcome ${sp.name}",
+                    style: const TextStyle(
+                        fontSize: 25, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 10),
+                  ListTile(
+                    leading: const Icon(Icons.email),
+                    title: Text(
+                      "${sp.email}",
+                      style: const TextStyle(fontWeight: FontWeight.w500),
                     ),
-                    child: const Text(
-                      "Test Your Skin",
-                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    subtitle: Text(
+                      "Provider: ${sp.provider}".toUpperCase(),
+                      style: const TextStyle(color: Colors.red),
                     ),
                   ),
+                  const SizedBox(height: 30),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          sp.userSignOut();
+                          nextScreenReplace(context, const LoginScreen());
+                        },
+                        icon: const Icon(Icons.logout),
+                        color: Colors.red,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          nextScreenReplace(context, const TfliteModel());
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 30,
+                            vertical: 15,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                        child: const Text(
+                          "Test Your Skin",
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 30),
                 ],
               ),
-              const SizedBox(height: 30),
-            ],
+            ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }

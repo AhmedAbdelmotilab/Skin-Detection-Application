@@ -72,16 +72,16 @@ class _TfliteModelState extends State<TfliteModel> {
       ),
     );
 
-    return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage(Config.app_icon),
-          fit: BoxFit.cover,
-        ),
-      ),
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
+        );
+        return false;
+      },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.red,
           elevation: 0,
           leading: backButton,
           title: title,
