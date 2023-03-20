@@ -17,6 +17,15 @@ class FirebaseDataScreen extends StatelessWidget {
       ),
       onPressed: () => nextScreenReplace(context, const TfliteModel()),
     );
+    const Widget title = Text(
+      "Doctors",
+      style: TextStyle(
+        color: Colors.black,
+        fontSize: 22,
+        fontFamily: "Times New Roman",
+        fontWeight: FontWeight.bold,
+      ),
+    );
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
     return WillPopScope(
       onWillPop: () async {
@@ -26,18 +35,22 @@ class FirebaseDataScreen extends StatelessWidget {
         return false;
       },
       child: Scaffold(
+        backgroundColor: Colors.orange[50],
         appBar: AppBar(
-          backgroundColor: Colors.red,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
           leading: backButton,
-          title: const Text(
-            'Find Your Doctor',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
+          title: title,
+          centerTitle: true,
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.orangeAccent, Colors.pinkAccent],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
             ),
           ),
-          centerTitle: true,
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -82,6 +95,7 @@ class FirebaseDataScreen extends StatelessWidget {
                                 name,
                                 style: const TextStyle(
                                   fontSize: 20,
+                                  fontFamily: "Times New Roman",
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),

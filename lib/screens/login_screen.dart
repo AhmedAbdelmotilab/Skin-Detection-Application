@@ -1,7 +1,10 @@
+// ignore_for_file: unused_field
+
 import 'package:blocauth/provider/internet_provider.dart';
 import 'package:blocauth/provider/sign_in_provider.dart';
 import 'package:blocauth/screens/home_screen.dart';
 import 'package:blocauth/screens/phoneauth_screen.dart';
+import 'package:blocauth/src/shared/authentication/terms_of_use.dart';
 import 'package:blocauth/utils/config.dart';
 import 'package:blocauth/utils/next_screen.dart';
 import 'package:blocauth/utils/snack_bar.dart';
@@ -29,158 +32,173 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldkey,
-      body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(Config.app_icon),
-              fit: BoxFit.cover,
-              colorFilter: ColorFilter.mode(
-                  Colors.black.withOpacity(0.07), BlendMode.darken),
+        backgroundColor: Colors.orange[50],
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          automaticallyImplyLeading: false,
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.orangeAccent, Colors.pinkAccent],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
             ),
           ),
-          child: Padding(
-            padding:
-                const EdgeInsets.only(left: 48, right: 48, top: 90, bottom: 30),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Flexible(
-                  flex: 2,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Image(
-                        image: AssetImage(Config.app_icon),
-                        height: 80,
-                        width: 80,
-                        fit: BoxFit.cover,
-                        color: const Color.fromRGBO(68, 138, 255, 1),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const Text("Welcome To Skin Detection App",
-                          style: TextStyle(
-                              fontSize: 25, fontWeight: FontWeight.w500)),
-                      const SizedBox(height: 10),
-                      const Text("Be Safe , Be Comfortable",
-                          style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.grey,
-                              fontWeight: FontWeight.w500)),
-                    ],
-                  ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
+        ),
+        body: Padding(
+          padding:
+              const EdgeInsets.only(left: 48, right: 48, top: 90, bottom: 30),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Flexible(
+                flex: 2,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    RoundedLoadingButton(
-                      onPressed: () {
-                        handleGoogleSignIn();
-                      },
-                      controller: googleController,
-                      successColor: Colors.red,
-                      width: MediaQuery.of(context).size.width * 0.80,
-                      elevation: 0,
-                      borderRadius: 25,
-                      color: Colors.red,
-                      child: Wrap(
-                        children: const [
-                          Icon(
-                            FontAwesomeIcons.google,
-                            size: 20,
-                            color: Colors.white,
-                          ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          Text(
-                            "sign in with google",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500),
-                          )
-                        ],
-                      ),
+                    Image(
+                      image: AssetImage(Config.app_icon),
+                      height: 80,
+                      width: 80,
+                      fit: BoxFit.cover,
+                      color: const Color.fromRGBO(68, 138, 255, 1),
                     ),
-                    //facebook button
                     const SizedBox(
-                      height: 10,
+                      height: 20,
                     ),
-                    RoundedLoadingButton(
-                      onPressed: () {
-                        handleFacebookAuth();
-                      },
-                      controller: facebookController,
-                      successColor: Colors.blue,
-                      width: MediaQuery.of(context).size.width * 0.80,
-                      elevation: 0,
-                      borderRadius: 25,
-                      color: Colors.blue,
-                      child: Wrap(
-                        children: const [
-                          Icon(
-                            FontAwesomeIcons.facebook,
-                            size: 20,
-                            color: Colors.white,
-                          ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          Text(
-                            "sign in with facebook",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500),
-                          )
-                        ],
-                      ),
-                    ),
-                    //phone otp
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    RoundedLoadingButton(
-                      onPressed: () {
-                        nextScreenReplace(context, const PhoneAuthScreen());
-                        phoneController.reset();
-                      },
-                      controller: phoneController,
-                      successColor: Colors.black,
-                      width: MediaQuery.of(context).size.width * 0.80,
-                      elevation: 0,
-                      borderRadius: 25,
-                      color: Colors.black,
-                      child: Wrap(
-                        children: const [
-                          Icon(
-                            FontAwesomeIcons.phone,
-                            size: 20,
-                            color: Colors.white,
-                          ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          Text(
-                            "sign in with phone",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500),
-                          )
-                        ],
-                      ),
-                    ),
+                    const Text("Welcome To Skin Detection App",
+                        style: TextStyle(
+                            fontSize: 25,
+                            fontFamily: "Times New Roman",
+                            fontWeight: FontWeight.w500)),
+                    const SizedBox(height: 10),
+                    const Text("Be Safe , Be Comfortable",
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.grey,
+                            fontFamily: "Times New Roman",
+                            fontWeight: FontWeight.w500)),
                   ],
                 ),
-              ],
-            ),
-          )),
-    );
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  RoundedLoadingButton(
+                    onPressed: () {
+                      handleGoogleSignIn();
+                    },
+                    controller: googleController,
+                    successColor: Colors.red,
+                    width: MediaQuery.of(context).size.width * 0.80,
+                    elevation: 0,
+                    borderRadius: 25,
+                    color: Colors.red,
+                    child: Wrap(
+                      children: const [
+                        Icon(
+                          FontAwesomeIcons.google,
+                          size: 20,
+                          color: Colors.white,
+                        ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Text(
+                          "sign in with google",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontFamily: "Times New Roman",
+                              fontWeight: FontWeight.w500),
+                        )
+                      ],
+                    ),
+                  ),
+                  //facebook button
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  RoundedLoadingButton(
+                    onPressed: () {
+                      handleFacebookAuth();
+                    },
+                    controller: facebookController,
+                    successColor: Colors.blue,
+                    width: MediaQuery.of(context).size.width * 0.80,
+                    elevation: 0,
+                    borderRadius: 25,
+                    color: Colors.blue,
+                    child: Wrap(
+                      children: const [
+                        Icon(
+                          FontAwesomeIcons.facebook,
+                          size: 20,
+                          color: Colors.white,
+                        ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Text(
+                          "sign in with facebook",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontFamily: "Times New Roman",
+                              fontWeight: FontWeight.w500),
+                        )
+                      ],
+                    ),
+                  ),
+                  //phone otp
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  RoundedLoadingButton(
+                    onPressed: () {
+                      nextScreenReplace(context, const PhoneAuthScreen());
+                      phoneController.reset();
+                    },
+                    controller: phoneController,
+                    successColor: Colors.black,
+                    width: MediaQuery.of(context).size.width * 0.80,
+                    elevation: 0,
+                    borderRadius: 25,
+                    color: Colors.black,
+                    child: Wrap(
+                      children: const [
+                        Icon(
+                          FontAwesomeIcons.phone,
+                          size: 20,
+                          color: Colors.white,
+                        ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Text(
+                          "sign in with phone",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: "Times New Roman",
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                children: const <Widget>[
+                  SizedBox(height: 15),
+                  TermsOfUse(), // remove the parentheses
+                ],
+              ),
+            ],
+          ),
+        ));
   }
 
   //handle the google sign in

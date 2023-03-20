@@ -26,180 +26,232 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
   String? _emailValidationError;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 99, 131, 147),
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          color: Colors.black,
-          onPressed: () {
-            nextScreenReplace(context, const LoginScreen());
-          },
-        ),
-        centerTitle: true, // set this property to true to center the title
-        title: const Text(
-          'Registration ',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-            fontSize: 20, // set the font size
-            fontFamily: 'Open Sans', // set the font family
+    final Widget backButton = IconButton(
+      icon: const Icon(
+        Icons.arrow_back_ios_rounded,
+        color: Colors.black,
+        size: 24,
+      ),
+      onPressed: () => nextScreenReplace(context, const LoginScreen()),
+    );
+
+    const Widget title = Text(
+      "Phone Registration",
+      style: TextStyle(
+        color: Colors.black,
+        fontSize: 22,
+        fontFamily: "Times New Roman",
+        fontWeight: FontWeight.bold,
+      ),
+    );
+
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
+        );
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.orange[50],
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: backButton,
+          title: title,
+          centerTitle: true,
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.orangeAccent, Colors.pinkAccent],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
           ),
         ),
-      ),
-      backgroundColor: Colors.blueGrey,
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.all(25),
-          child: Form(
-            key: formkey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Image(
-                    image: AssetImage(Config.app_icon),
-                    height: 80,
-                    width: 80,
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const Text(
-                  "Welcome to the application",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "Name cannot be empty";
-                    } else {
-                      return null;
-                    }
-                  },
-                  controller: nameController,
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                    labelText: "Enter Your First And Last Name",
-                    prefixIcon: const Icon(Icons.account_circle),
-                    hintText: "First and Last Name",
-                    hintStyle: const TextStyle(color: Colors.blueGrey),
-                    errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(color: Colors.red),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(color: Colors.grey),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(color: Colors.grey),
+        body: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(25),
+            child: Form(
+              key: formkey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Image(
+                      image: AssetImage(Config.app_icon),
+                      height: 80,
+                      width: 80,
+                      fit: BoxFit.cover,
+                      color: const Color.fromRGBO(68, 138, 255, 1),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Email address cannot be empty";
-                    } else if (!RegExp(r'^\S+@\S+\.\S+$').hasMatch(value)) {
-                      setState(() {
-                        _emailValidationError =
-                            'Please enter a valid email address';
-                      });
-                      return _emailValidationError;
-                    } else {
-                      setState(() {
-                        _emailValidationError = null;
-                      });
-                      return null;
-                    }
-                  },
-                  controller: emailController,
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                    labelText: "Enter Your Email Address",
-                    prefixIcon: const Icon(Icons.email),
-                    hintText: "example@example.com",
-                    hintStyle: const TextStyle(color: Colors.blueGrey),
-                    errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(color: Colors.red),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(color: Colors.grey),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(color: Colors.grey),
-                    ),
-                    errorText: _emailValidationError,
+                  const SizedBox(
+                    height: 10,
                   ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                IntlPhoneField(
-                  decoration: InputDecoration(
-                    labelText: "Enter Your Phone Number",
-                    hintText: "1234567890",
-                    hintStyle: const TextStyle(color: Colors.blueGrey),
-                    errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(color: Colors.red),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(color: Colors.grey),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(color: Colors.grey),
-                    ),
-                  ),
-                  initialCountryCode: 'EG', // set the default country code
-                  onChanged: (phone) {
-                    // update the controller value with the full phone number
-                    phoneController.text = phone.completeNumber;
-                  },
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    login(context, phoneController.text.trim());
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue.shade800,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                    ),
-                    elevation: 5.0,
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 16.0, horizontal: 32.0),
-                  ),
-                  child: const Text(
-                    'Register',
+                  const Text(
+                    "Welcome to the application",
                     style: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1.0,
-                      color: Colors.white,
+                        fontSize: 20,
+                        fontFamily: "Times New Roman",
+                        fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Name cannot be empty";
+                      } else {
+                        return null;
+                      }
+                    },
+                    controller: nameController,
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      labelText: "Enter Your First And Last Name",
+                      labelStyle: const TextStyle(
+                        fontFamily: "Times New Roman",
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      prefixIcon: const Icon(Icons.account_circle),
+                      hintText: "First and Last Name",
+                      hintStyle: const TextStyle(
+                        color: Colors.blueGrey,
+                        fontFamily: "Times New Roman",
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: const BorderSide(color: Colors.red),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: const BorderSide(color: Colors.grey),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: const BorderSide(color: Colors.grey),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Email address cannot be empty";
+                      } else if (!RegExp(r'^\S+@\S+\.\S+$').hasMatch(value)) {
+                        setState(() {
+                          _emailValidationError =
+                              'Please enter a valid email address';
+                        });
+                        return _emailValidationError;
+                      } else {
+                        setState(() {
+                          _emailValidationError = null;
+                        });
+                        return null;
+                      }
+                    },
+                    controller: emailController,
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      labelText: "Enter Your Email Address",
+                      labelStyle: const TextStyle(
+                        fontFamily: "Times New Roman",
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      prefixIcon: const Icon(Icons.email),
+                      hintText: "example@example.com",
+                      hintStyle: const TextStyle(
+                        color: Colors.blueGrey,
+                        fontFamily: "Times New Roman",
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: const BorderSide(color: Colors.red),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: const BorderSide(color: Colors.grey),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: const BorderSide(color: Colors.grey),
+                      ),
+                      errorText: _emailValidationError,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  IntlPhoneField(
+                    decoration: InputDecoration(
+                      labelText: "Enter Your Phone Number",
+                      labelStyle: const TextStyle(
+                        fontFamily: "Times New Roman",
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      hintText: "1234567890",
+                      hintStyle: const TextStyle(
+                        color: Colors.blueGrey,
+                        fontFamily: "Times New Roman",
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: const BorderSide(color: Colors.red),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: const BorderSide(color: Colors.grey),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: const BorderSide(color: Colors.grey),
+                      ),
+                    ),
+                    initialCountryCode: 'EG', // set the default country code
+                    onChanged: (phone) {
+                      // update the controller value with the full phone number
+                      phoneController.text = phone.completeNumber;
+                    },
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      login(context, phoneController.text.trim());
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue.shade800,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                      ),
+                      elevation: 5.0,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16.0, horizontal: 32.0),
+                    ),
+                    child: const Text(
+                      'Register',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: "Times New Roman",
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

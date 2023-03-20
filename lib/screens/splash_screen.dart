@@ -36,14 +36,31 @@ class _SplashScreenState extends State<SplashScreen> {
           image: AssetImage(Config.app_icon),
           fit: BoxFit.contain,
         ),
-        color: Colors.blueGrey,
+        gradient: const LinearGradient(
+          colors: [Colors.orangeAccent, Colors.pinkAccent],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
       ),
       child: Column(children: const [
         SizedBox(
           height: 650,
         ),
+        DefaultTextStyle(
+          style: TextStyle(
+            fontFamily: "Times New Roman",
+            color: Colors.white,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+          child: Text("Loading"),
+        ),
+        SizedBox(
+          height: 10,
+        ),
         CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.white))
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+        ),
       ]),
     );
   }
