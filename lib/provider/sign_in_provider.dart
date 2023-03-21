@@ -1,8 +1,9 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -43,6 +44,8 @@ class SignInProvider extends ChangeNotifier {
   SignInProvider() {
     checkSignInUser();
   }
+
+  set isUserExistsChecked(bool isUserExistsChecked) {}
 
   Future checkSignInUser() async {
     final SharedPreferences s = await SharedPreferences.getInstance();

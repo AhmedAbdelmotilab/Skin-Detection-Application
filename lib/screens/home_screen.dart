@@ -1,7 +1,6 @@
 import 'package:blocauth/model/TfliteModel.dart';
 import 'package:blocauth/provider/sign_in_provider.dart';
 import 'package:blocauth/screens/login_screen.dart';
-import 'package:blocauth/utils/config.dart';
 import 'package:blocauth/utils/next_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -135,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         nextScreenReplace(context, const TfliteModel());
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
+                        backgroundColor: Colors.pinkAccent,
                         padding: const EdgeInsets.symmetric(
                           horizontal: 30,
                           vertical: 15,

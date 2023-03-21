@@ -1,3 +1,7 @@
+// ignore_for_file: avoid_print
+
+import 'dart:async';
+
 import 'package:blocauth/provider/internet_provider.dart';
 import 'package:blocauth/provider/sign_in_provider.dart';
 import 'package:blocauth/screens/home_screen.dart';
@@ -7,6 +11,7 @@ import 'package:blocauth/utils/next_screen.dart';
 import 'package:blocauth/utils/snack_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
@@ -24,6 +29,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController otpCodeController = TextEditingController();
   String? _emailValidationError;
+
   @override
   Widget build(BuildContext context) {
     final Widget backButton = IconButton(
@@ -79,13 +85,13 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Center(
+                  const Center(
                     child: Image(
                       image: AssetImage(Config.app_icon),
                       height: 80,
                       width: 80,
                       fit: BoxFit.cover,
-                      color: const Color.fromRGBO(68, 138, 255, 1),
+                      color: Color.fromRGBO(68, 138, 255, 1),
                     ),
                   ),
                   const SizedBox(
@@ -278,82 +284,130 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
             },
             codeSent: (String verificationId, int? forceResendingToken) {
               showDialog(
-                  barrierDismissible: false,
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: const Text("Enter Code"),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          TextField(
+                barrierDismissible: false,
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: const Text("Enter Code"),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Form(
+                          child: TextFormField(
                             controller: otpCodeController,
+                            maxLength: 6,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                            validator: (value) {
+                              if (value!.isEmpty || value.length < 6) {
+                                return 'Please enter a 6-digit code';
+                              }
+                              return null;
+                            },
                             decoration: InputDecoration(
-                                prefixIcon: const Icon(Icons.code),
-                                errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    borderSide:
-                                        const BorderSide(color: Colors.red)),
-                                enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    borderSide:
-                                        const BorderSide(color: Colors.grey)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    borderSide:
-                                        const BorderSide(color: Colors.grey))),
+                              prefixIcon: const Icon(Icons.code),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: const BorderSide(color: Colors.red),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide:
+                                    const BorderSide(color: Colors.grey),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide:
+                                    const BorderSide(color: Colors.grey),
+                              ),
+                            ),
                           ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          ElevatedButton(
-                            onPressed: () async {
-                              final code = otpCodeController.text.trim();
-                              AuthCredential authCredential =
-                                  PhoneAuthProvider.credential(
-                                      verificationId: verificationId,
-                                      smsCode: code);
-                              User user = (await FirebaseAuth.instance
-                                      .signInWithCredential(authCredential))
-                                  .user!;
-                              // SAVE THE DATA
-                              sp.phonNumberUser(user, emailController.text,
-                                  nameController.text);
-                              //Checking whether the user exists or not.
-                              sp.checkUserExists().then((value) async {
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        ElevatedButton(
+                          onPressed: () async {
+                            final code = otpCodeController.text.trim();
+                            AuthCredential authCredential =
+                                PhoneAuthProvider.credential(
+                              verificationId: verificationId,
+                              smsCode: code,
+                            );
+                            User user = (await FirebaseAuth.instance
+                                    .signInWithCredential(authCredential))
+                                .user!;
+                            // SAVE THE DATA
+                            sp.phonNumberUser(user, emailController.text,
+                                nameController.text);
+                            //Checking whether the user exists or not.
+                            sp.checkUserExists().then(
+                              (value) async {
                                 if (value == true) {
                                   //user exist
                                   await sp
                                       .getUserDataFromFirestore(sp.uid)
-                                      .then((value) => sp
-                                          .saveDataToSharedPreferences()
-                                          .then((value) =>
-                                              sp.setSignIn().then((value) {
-                                                nextScreenReplace(context,
-                                                    const HomeScreen());
-                                              })));
+                                      .then(
+                                        (value) => sp
+                                            .saveDataToSharedPreferences()
+                                            .then(
+                                              (value) => sp.setSignIn().then(
+                                                (value) {
+                                                  nextScreenReplace(context,
+                                                      const HomeScreen());
+                                                },
+                                              ),
+                                            ),
+                                      );
                                 } else {
                                   //user not exist
                                   sp.saveDataToFirestore().then(
                                         (value) => sp
                                             .saveDataToSharedPreferences()
                                             .then(
-                                              (value) =>
-                                                  sp.setSignIn().then((value) {
-                                                nextScreenReplace(context,
-                                                    const HomeScreen());
-                                              }),
+                                              (value) => sp.setSignIn().then(
+                                                (value) {
+                                                  nextScreenReplace(context,
+                                                      const HomeScreen());
+                                                },
+                                              ),
                                             ),
                                       );
                                 }
-                              });
-                            },
-                            child: const Text("Confirm"),
-                          ),
-                        ],
-                      ),
-                    );
-                  });
+                              },
+                            );
+                          },
+                          child: const Text("Confirm"),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            await FirebaseAuth.instance.verifyPhoneNumber(
+                              phoneNumber: mobile,
+                              verificationCompleted:
+                                  (PhoneAuthCredential credential) {},
+                              verificationFailed: (FirebaseAuthException e) {
+                                if (e.code == 'invalid-phone-number') {
+                                  print(
+                                      'The provided phone number is not valid.');
+                                }
+                              },
+                              codeSent: (String verificationId,
+                                  int? forceResendingToken) {
+                                print('Resend Code: $verificationId');
+                              },
+                              codeAutoRetrievalTimeout:
+                                  (String verificationId) {},
+                            );
+                          },
+                          child: const Text("Resend Code"),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
             },
             codeAutoRetrievalTimeout: (String verification) {});
       }

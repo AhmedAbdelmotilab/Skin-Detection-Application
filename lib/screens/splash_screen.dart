@@ -31,12 +31,12 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage(Config.app_icon),
           fit: BoxFit.contain,
         ),
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           colors: [Colors.orangeAccent, Colors.pinkAccent],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,

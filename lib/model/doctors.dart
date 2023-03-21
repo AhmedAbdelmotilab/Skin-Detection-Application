@@ -2,6 +2,7 @@ import 'package:blocauth/model/TfliteModel.dart';
 import 'package:blocauth/utils/next_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 
 class FirebaseDataScreen extends StatelessWidget {
@@ -70,7 +71,7 @@ class FirebaseDataScreen extends StatelessWidget {
                   final Map<String, dynamic> data =
                       documents[index].data() as Map<String, dynamic>;
                   final String name = data['name'] ?? '';
-                  final String email = data['email'] ?? '';
+                  final String phone = data['phone'] ?? '';
                   final GeoPoint location = data['location'] as GeoPoint;
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
@@ -80,7 +81,7 @@ class FirebaseDataScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10.0),
                         boxShadow: const [
                           BoxShadow(
-                            color: Colors.grey,
+                            color: Colors.blueGrey,
                             blurRadius: 5,
                             offset: Offset(0, 3),
                           )
@@ -89,6 +90,7 @@ class FirebaseDataScreen extends StatelessWidget {
                       child: ListTile(
                         contentPadding: const EdgeInsets.all(16.0),
                         title: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Expanded(
                               child: Text(
@@ -106,14 +108,61 @@ class FirebaseDataScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const SizedBox(height: 8.0),
-                            Text(
-                              'Email: $email',
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Colors.grey,
-                              ),
+                            Row(
+                              children: [
+                                GestureDetector(
+                                  onLongPress: () {
+                                    Clipboard.setData(
+                                        ClipboardData(text: phone));
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                            'Phone number copied to clipboard'),
+                                      ),
+                                    );
+                                  },
+                                  child: RichText(
+                                    text: TextSpan(
+                                      text: 'Phone: ',
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontFamily: "Times New Roman",
+                                        color: Colors.blueGrey,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text: phone,
+                                          style: const TextStyle(
+                                            fontFamily: "Times New Roman",
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ), // Add some space between the text and the icon
+                                GestureDetector(
+                                  onTap: () {
+                                    Clipboard.setData(
+                                        ClipboardData(text: phone));
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                            'Phone number copied to clipboard'),
+                                      ),
+                                    );
+                                  },
+                                  child: const Icon(
+                                    Icons.copy,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
                             ),
-                            const SizedBox(height: 8.0),
+                            const SizedBox(height: 4.0),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -122,33 +171,22 @@ class FirebaseDataScreen extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      const Text(
-                                        'Location',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                      Text(
-                                        '${location.latitude}, ${location.longitude}',
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
                                       const SizedBox(height: 8.0),
                                       const Text(
-                                        'Address',
+                                        'Address:',
                                         style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.grey,
+                                          fontSize: 18,
+                                          fontFamily: "Times New Roman",
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.blueGrey,
                                         ),
                                       ),
                                       Text(
                                         '${data['address']}',
                                         style: const TextStyle(
                                           fontSize: 16,
-                                          color: Colors.grey,
+                                          color: Colors.blueGrey,
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                     ],
@@ -166,13 +204,13 @@ class FirebaseDataScreen extends StatelessWidget {
                                   icon: const Icon(
                                     Icons.location_on_outlined,
                                     size: 30,
-                                    color: Colors.red,
+                                    color: Colors.orangeAccent,
                                   ),
                                   label: const Text(
                                     'Location',
                                     style: TextStyle(
                                       fontSize: 16,
-                                      color: Colors.red,
+                                      color: Colors.pinkAccent,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),

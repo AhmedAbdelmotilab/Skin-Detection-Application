@@ -1,10 +1,9 @@
-// ignore_for_file: unnecessary_import
+// ignore_for_file: file_names
+
 import 'dart:io';
 import 'package:blocauth/model/doctors.dart';
 import 'package:blocauth/screens/home_screen.dart';
-import 'package:blocauth/utils/config.dart';
 import 'package:blocauth/utils/next_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:image_picker/image_picker.dart';

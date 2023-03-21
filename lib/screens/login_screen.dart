@@ -56,24 +56,24 @@ class _LoginScreenState extends State<LoginScreen> {
                 flex: 2,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: const [
                     Image(
                       image: AssetImage(Config.app_icon),
                       height: 80,
                       width: 80,
                       fit: BoxFit.cover,
-                      color: const Color.fromRGBO(68, 138, 255, 1),
+                      color: Color.fromRGBO(68, 138, 255, 1),
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: 20,
                     ),
-                    const Text("Welcome To Skin Detection App",
+                    Text("Welcome To Skin Detection App",
                         style: TextStyle(
                             fontSize: 25,
                             fontFamily: "Times New Roman",
                             fontWeight: FontWeight.w500)),
-                    const SizedBox(height: 10),
-                    const Text("Be Safe , Be Comfortable",
+                    SizedBox(height: 10),
+                    Text("Be Safe , Be Comfortable",
                         style: TextStyle(
                             fontSize: 15,
                             color: Colors.grey,
@@ -188,12 +188,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                   ),
-                ],
-              ),
-              Column(
-                children: const <Widget>[
-                  SizedBox(height: 15),
-                  TermsOfUse(), // remove the parentheses
+                  const TermsOfUse(), // remove the parentheses
                 ],
               ),
             ],
