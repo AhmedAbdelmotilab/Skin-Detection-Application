@@ -278,6 +278,9 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                           ),
                         ),
                       ),
+                      const SizedBox(
+                        height: 100,
+                      ),
                     ],
                   ),
                 ),
