@@ -53,179 +53,196 @@ class FirebaseDataScreen extends StatelessWidget {
             ),
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: StreamBuilder<QuerySnapshot>(
-            stream: firestore.collection('doctors').snapshots(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/Flat.jpg'),
+              fit: BoxFit.cover,
+              opacity: 0.6,
+            ),
+            gradient: LinearGradient(
+              colors: [Colors.orangeAccent, Colors.pinkAccent],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: StreamBuilder<QuerySnapshot>(
+              stream: firestore.collection('doctors').snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
 
-              final List<DocumentSnapshot> documents = snapshot.data!.docs;
-              return ListView.builder(
-                itemCount: documents.length,
-                itemBuilder: (context, index) {
-                  final Map<String, dynamic> data =
-                      documents[index].data() as Map<String, dynamic>;
-                  final String name = data['name'] ?? '';
-                  final String phone = data['phone'] ?? '';
-                  final GeoPoint location = data['location'] as GeoPoint;
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10.0),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.blueGrey,
-                            blurRadius: 5,
-                            offset: Offset(0, 3),
-                          )
-                        ],
-                      ),
-                      child: ListTile(
-                        contentPadding: const EdgeInsets.all(16.0),
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                name,
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  fontFamily: "Times New Roman",
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
+                final List<DocumentSnapshot> documents = snapshot.data!.docs;
+                return ListView.builder(
+                  itemCount: documents.length,
+                  itemBuilder: (context, index) {
+                    final Map<String, dynamic> data =
+                        documents[index].data() as Map<String, dynamic>;
+                    final String name = data['name'] ?? '';
+                    final String phone = data['phone'] ?? '';
+                    final GeoPoint location = data['location'] as GeoPoint;
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10.0),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.blueGrey,
+                              blurRadius: 5,
+                              offset: Offset(0, 3),
+                            )
                           ],
                         ),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(height: 8.0),
-                            Row(
-                              children: [
-                                GestureDetector(
-                                  onLongPress: () {
-                                    Clipboard.setData(
-                                        ClipboardData(text: phone));
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                            'Phone number copied to clipboard'),
+                        child: ListTile(
+                          contentPadding: const EdgeInsets.all(16.0),
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  name,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontFamily: "Times New Roman",
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 8.0),
+                              Row(
+                                children: [
+                                  GestureDetector(
+                                    onLongPress: () {
+                                      Clipboard.setData(
+                                          ClipboardData(text: phone));
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                              'Phone number copied to clipboard'),
+                                        ),
+                                      );
+                                    },
+                                    child: RichText(
+                                      text: TextSpan(
+                                        text: 'Phone: ',
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: "Times New Roman",
+                                          color: Colors.blueGrey,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        children: [
+                                          TextSpan(
+                                            text: phone,
+                                            style: const TextStyle(
+                                              fontFamily: "Times New Roman",
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    );
-                                  },
-                                  child: RichText(
-                                    text: TextSpan(
-                                      text: 'Phone: ',
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontFamily: "Times New Roman",
-                                        color: Colors.blueGrey,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ), // Add some space between the text and the icon
+                                  GestureDetector(
+                                    onTap: () {
+                                      Clipboard.setData(
+                                          ClipboardData(text: phone));
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                              'Phone number copied to clipboard'),
+                                        ),
+                                      );
+                                    },
+                                    child: const Icon(
+                                      Icons.copy,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 4.0),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        TextSpan(
-                                          text: phone,
-                                          style: const TextStyle(
+                                        const SizedBox(height: 8.0),
+                                        const Text(
+                                          'Address:',
+                                          style: TextStyle(
+                                            fontSize: 18,
                                             fontFamily: "Times New Roman",
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.blueGrey,
+                                          ),
+                                        ),
+                                        Text(
+                                          '${data['address']}',
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.blueGrey,
+                                            fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                       ],
                                     ),
                                   ),
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ), // Add some space between the text and the icon
-                                GestureDetector(
-                                  onTap: () {
-                                    Clipboard.setData(
-                                        ClipboardData(text: phone));
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                            'Phone number copied to clipboard'),
+                                  TextButton.icon(
+                                    onPressed: () {
+                                      final latitude = location.latitude;
+                                      final longitude = location.longitude;
+                                      MapsLauncher.launchCoordinates(
+                                        latitude,
+                                        longitude,
+                                      );
+                                    },
+                                    icon: const Icon(
+                                      Icons.location_on_outlined,
+                                      size: 30,
+                                      color: Colors.orangeAccent,
+                                    ),
+                                    label: const Text(
+                                      'Location',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.pinkAccent,
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                    );
-                                  },
-                                  child: const Icon(
-                                    Icons.copy,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 4.0),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const SizedBox(height: 8.0),
-                                      const Text(
-                                        'Address:',
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontFamily: "Times New Roman",
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.blueGrey,
-                                        ),
-                                      ),
-                                      Text(
-                                        '${data['address']}',
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.blueGrey,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                TextButton.icon(
-                                  onPressed: () {
-                                    final latitude = location.latitude;
-                                    final longitude = location.longitude;
-                                    MapsLauncher.launchCoordinates(
-                                      latitude,
-                                      longitude,
-                                    );
-                                  },
-                                  icon: const Icon(
-                                    Icons.location_on_outlined,
-                                    size: 30,
-                                    color: Colors.orangeAccent,
-                                  ),
-                                  label: const Text(
-                                    'Location',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.pinkAccent,
-                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 8.0),
-                          ],
+                                ],
+                              ),
+                              const SizedBox(height: 8.0),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                },
-              );
-            },
+                    );
+                  },
+                );
+              },
+            ),
           ),
         ),
       ),

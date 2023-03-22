@@ -32,21 +32,21 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.orange[50],
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          automaticallyImplyLeading: false,
-          flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.orangeAccent, Colors.pinkAccent],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-            ),
+      backgroundColor: Colors.orange[50],
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/Home.jpg'),
+            fit: BoxFit.cover,
+            opacity: 0.6,
+          ),
+          gradient: LinearGradient(
+            colors: [Colors.orangeAccent, Colors.pinkAccent],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
         ),
-        body: Padding(
+        child: Padding(
           padding:
               const EdgeInsets.only(left: 48, right: 48, top: 90, bottom: 30),
           child: Column(
@@ -73,12 +73,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontFamily: "Times New Roman",
                             fontWeight: FontWeight.w500)),
                     SizedBox(height: 10),
-                    Text("Be Safe , Be Comfortable",
-                        style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.grey,
-                            fontFamily: "Times New Roman",
-                            fontWeight: FontWeight.w500)),
+                    Text(
+                      "Be Safe , Be Comfortable",
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.blueGrey,
+                          fontFamily: "Times New Roman",
+                          fontWeight: FontWeight.w700),
+                    ),
                   ],
                 ),
               ),
@@ -193,7 +195,9 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   //handle the google sign in

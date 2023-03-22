@@ -1,8 +1,13 @@
+// ignore_for_file: deprecated_member_use
+
+import 'dart:io';
+
 import 'package:blocauth/model/TfliteModel.dart';
 import 'package:blocauth/provider/sign_in_provider.dart';
 import 'package:blocauth/screens/login_screen.dart';
 import 'package:blocauth/utils/next_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -13,6 +18,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  File? _image;
+
+  Future getImage() async {
+    final pickedFile =
+        await ImagePicker().getImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _image = File(pickedFile.path);
+      });
+    }
+  }
+
   Future getData() async {
     final sp = context.read<SignInProvider>();
     sp.getDataFromSharedPrefernces();
@@ -27,7 +44,15 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final sp = context.watch<SignInProvider>();
-
+    const Widget title = Text(
+      "Your Profile",
+      style: TextStyle(
+        color: Colors.black,
+        fontSize: 22,
+        fontFamily: "Times New Roman",
+        fontWeight: FontWeight.bold,
+      ),
+    );
     return WillPopScope(
       onWillPop: () async {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -40,33 +65,47 @@ class _HomeScreenState extends State<HomeScreen> {
         return false;
       },
       child: Scaffold(
-        body: Container(
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Colors.orangeAccent, Colors.pinkAccent],
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 3,
-                blurRadius: 7,
-                offset: const Offset(0, 3),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: title,
+          centerTitle: true,
+          automaticallyImplyLeading: false, // this line removes the back button
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.orangeAccent, Colors.pinkAccent],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
-            ],
+            ),
+          ),
+        ),
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/Flat.jpg'),
+              fit: BoxFit.cover,
+              opacity: 0.6,
+            ),
+            gradient: LinearGradient(
+              colors: [Colors.orangeAccent, Colors.pinkAccent],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
           ),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                AnimatedOpacity(
-                  duration: const Duration(seconds: 1),
-                  opacity: 1,
+                GestureDetector(
+                  onTap: getImage,
                   child: CircleAvatar(
-                    backgroundColor: Colors.white,
-                    backgroundImage: NetworkImage("${sp.imageurl}"),
+                    backgroundColor: Colors.black,
+                    backgroundImage: _image != null
+                        ? FileImage(_image!) as ImageProvider<Object>?
+                        : NetworkImage("${sp.imageurl}"),
                     radius: 50,
                   ),
                 ),
@@ -76,25 +115,26 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: const TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: Colors.black,
                     fontFamily: "Times New Roman",
                   ),
                 ),
                 const SizedBox(height: 10),
                 ListTile(
-                  leading: const Icon(Icons.email, color: Colors.white),
+                  leading: const Icon(Icons.email, color: Colors.black),
                   title: Text(
                     "${sp.email}",
                     style: const TextStyle(
+                      fontSize: 25,
                       fontWeight: FontWeight.w500,
-                      color: Colors.white,
+                      color: Colors.black,
                       fontFamily: "Times New Roman",
                     ),
                   ),
                   subtitle: Text(
                     "Provider: ${sp.provider}".toUpperCase(),
                     style: const TextStyle(
-                      color: Colors.blueGrey,
+                      color: Color.fromARGB(255, 93, 113, 123),
                       fontFamily: "Times New Roman",
                     ),
                   ),
@@ -134,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         nextScreenReplace(context, const TfliteModel());
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.pinkAccent,
+                        backgroundColor: Colors.deepOrange,
                         padding: const EdgeInsets.symmetric(
                           horizontal: 30,
                           vertical: 15,
@@ -155,7 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 100),
               ],
             ),
           ),
