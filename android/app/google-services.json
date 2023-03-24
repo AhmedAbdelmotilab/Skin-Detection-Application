@@ -1,28 +1,29 @@
 {
   "project_info": {
     "project_number": "913065201168",
+    "firebase_url": "https://blocauth-5963f-default-rtdb.firebaseio.com",
     "project_id": "blocauth-5963f",
     "storage_bucket": "blocauth-5963f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:913065201168:android:4e5ed8ed4e340d83d70495",
+        "mobilesdk_app_id": "1:913065201168:android:33edb7e0152fedf0d70495",
         "android_client_info": {
           "package_name": "com.example.blocauth"
         }
       },
       "oauth_client": [
         {
-          "client_id": "913065201168-0lgncavh8ug28kk4k56vrvlghvthbel3.apps.googleusercontent.com",
+          "client_id": "913065201168-t01kles5cgbnof5rq343efcpfa9m7pjo.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.blocauth",
-            "certificate_hash": "56c743e52548c2ddc4eb136fb4842b010d9e85aa"
+            "certificate_hash": "6791756be2b31b1af019ed3d4006df011ae33d1d"
           }
         },
         {
-          "client_id": "913065201168-26pnhih9klger6ju7v58q8bu4kjvm217.apps.googleusercontent.com",
+          "client_id": "913065201168-j316ll04301sdvkbeiqeunbs6ob9b8n8.apps.googleusercontent.com",
           "client_type": 3
         }
       ],

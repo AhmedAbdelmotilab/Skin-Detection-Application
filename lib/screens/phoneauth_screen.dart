@@ -10,6 +10,7 @@ import 'package:blocauth/utils/config.dart';
 import 'package:blocauth/utils/next_screen.dart';
 import 'package:blocauth/utils/snack_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -296,6 +297,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
   Future login(BuildContext context, String mobile) async {
     final sp = context.read<SignInProvider>();
     final ip = context.read<InternetProvider>();
+    
     await ip.checkInternetConnection();
     if (ip.hasInternet == false) {
       // ignore: use_build_context_synchronously
@@ -310,7 +312,9 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
             verificationFailed: (FirebaseAuthException e) {
               openSnackbar(context, e.toString(), Colors.red);
             },
+            
             codeSent: (String verificationId, int? forceResendingToken) {
+              
               showDialog(
                 barrierDismissible: false,
                 context: context,
