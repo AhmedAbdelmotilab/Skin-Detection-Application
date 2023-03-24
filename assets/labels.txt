@@ -7,5 +7,5 @@ Eczema
 'Melanocytic_Nevi': 6,
 'Melanoma': 7,
 'Seborrheic_Keratoses': 8,
-'Tinea_Ringworm_Candidiasis_And_Other_Fungal_Infections': 9,
+Tinea_Ringworm_Candidiasis_And_Other_Fungal_Infections
 'Warts_Molluscum_And_Other_Viral_Infections': 10

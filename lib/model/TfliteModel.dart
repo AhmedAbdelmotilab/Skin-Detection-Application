@@ -1,9 +1,10 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, unused_local_variable, use_build_context_synchronously
 
 import 'dart:io';
 import 'package:blocauth/model/doctors.dart';
 import 'package:blocauth/screens/home_screen.dart';
 import 'package:blocauth/utils/next_screen.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:image_picker/image_picker.dart';
@@ -195,8 +196,8 @@ class _TfliteModelState extends State<TfliteModel> {
                                       ),
                                       elevation: 5,
                                       child: Container(
-                                        width: 250,
-                                        height: 100,
+                                        constraints: const BoxConstraints(
+                                            minWidth: double.infinity),
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(10.0),
@@ -365,6 +366,19 @@ class _TfliteModelState extends State<TfliteModel> {
     );
     File image = File(pickedFile!.path);
     imageClassification(image);
+    final Reference storageRef = FirebaseStorage.instance
+        .ref('blocauth-5963f.appspot.com')
+        .child('images/${DateTime.now().millisecondsSinceEpoch}.jpg');
+
+    final TaskSnapshot uploadTask =
+        await storageRef.putFile(File(pickedFile.path));
+    // Show snackbar after upload is complete
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content:
+            Text('The image uploaded successfully Thank you for your help.'),
+      ),
+    );
   }
 
   Future take() async {
@@ -374,5 +388,17 @@ class _TfliteModelState extends State<TfliteModel> {
     );
     File image = File(pickedFile!.path);
     imageClassification(image);
+    final Reference storageRef = FirebaseStorage.instance
+        .ref('blocauth-5963f.appspot.com')
+        .child('images/${DateTime.now().millisecondsSinceEpoch}.jpg');
+
+    final TaskSnapshot uploadTask =
+        await storageRef.putFile(File(pickedFile.path));
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content:
+            Text('The image uploaded successfully Thank you for your help.'),
+      ),
+    );
   }
 }
