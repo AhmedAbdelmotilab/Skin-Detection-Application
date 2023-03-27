@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, use_build_context_synchronously, duplicate_ignore
 
 import 'dart:async';
 
@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:flutter/services.dart';
 
 class PhoneAuthScreen extends StatefulWidget {
   const PhoneAuthScreen({super.key});
@@ -297,7 +298,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
   Future login(BuildContext context, String mobile) async {
     final sp = context.read<SignInProvider>();
     final ip = context.read<InternetProvider>();
-    
+
     await ip.checkInternetConnection();
     if (ip.hasInternet == false) {
       // ignore: use_build_context_synchronously
@@ -312,20 +313,31 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
             verificationFailed: (FirebaseAuthException e) {
               openSnackbar(context, e.toString(), Colors.red);
             },
-            
             codeSent: (String verificationId, int? forceResendingToken) {
-              
               showDialog(
                 barrierDismissible: false,
                 context: context,
                 builder: (context) {
-                  return AlertDialog(
-                    title: const Text("Enter Code"),
-                    content: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Form(
-                          child: TextFormField(
+                  return Dialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Text(
+                            "Enter OTP Code",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "Times New Roman",
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          TextFormField(
                             controller: otpCodeController,
                             maxLength: 6,
                             keyboardType: TextInputType.number,
@@ -340,6 +352,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                             },
                             decoration: InputDecoration(
                               prefixIcon: const Icon(Icons.code),
+                              labelText: "OTP Code",
                               errorBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
                                 borderSide: const BorderSide(color: Colors.red),
@@ -356,88 +369,194 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        ElevatedButton(
-                          onPressed: () async {
-                            final code = otpCodeController.text.trim();
-                            AuthCredential authCredential =
-                                PhoneAuthProvider.credential(
-                              verificationId: verificationId,
-                              smsCode: code,
-                            );
-                            User user = (await FirebaseAuth.instance
-                                    .signInWithCredential(authCredential))
-                                .user!;
-                            // SAVE THE DATA
-                            sp.phonNumberUser(user, emailController.text,
-                                nameController.text);
-                            //Checking whether the user exists or not.
-                            sp.checkUserExists().then(
-                              (value) async {
-                                if (value == true) {
-                                  //user exist
-                                  await sp
-                                      .getUserDataFromFirestore(sp.uid)
-                                      .then(
-                                        (value) => sp
-                                            .saveDataToSharedPreferences()
-                                            .then(
-                                              (value) => sp.setSignIn().then(
-                                                (value) {
-                                                  nextScreenReplace(context,
-                                                      const HomeScreen());
-                                                },
+                          const SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: () async {
+                              try {
+                                final code = otpCodeController.text.trim();
+                                AuthCredential authCredential =
+                                    PhoneAuthProvider.credential(
+                                  verificationId: verificationId,
+                                  smsCode: code,
+                                );
+                                User user = (await FirebaseAuth.instance
+                                        .signInWithCredential(authCredential))
+                                    .user!;
+                                // SAVE THE DATA
+                                sp.phonNumberUser(user, emailController.text,
+                                    nameController.text);
+                                //Checking whether the user exists or not.
+                                sp.checkUserExists().then(
+                                  (value) async {
+                                    if (value == true) {
+                                      //user exist
+                                      await sp
+                                          .getUserDataFromFirestore(sp.uid)
+                                          .then(
+                                            (value) => sp
+                                                .saveDataToSharedPreferences()
+                                                .then(
+                                                  (value) =>
+                                                      sp.setSignIn().then(
+                                                    (value) {
+                                                      nextScreenReplace(context,
+                                                          const HomeScreen());
+                                                    },
+                                                  ),
+                                                ),
+                                          );
+                                    } else {
+                                      //user not exist
+                                      sp.saveDataToFirestore().then(
+                                            (value) => sp
+                                                .saveDataToSharedPreferences()
+                                                .then(
+                                                  (value) =>
+                                                      sp.setSignIn().then(
+                                                    (value) {
+                                                      nextScreenReplace(
+                                                        context,
+                                                        const HomeScreen(),
+                                                      );
+                                                    },
+                                                  ),
+                                                ),
+                                          );
+                                    }
+                                  },
+                                );
+                              } catch (e) {
+                                // Handle any errors that might occur.
+                                print('An error occurred: $e');
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => Dialog(
+                                    backgroundColor: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          const SizedBox(height: 16),
+                                          const Text(
+                                            'Error',
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "Times New Roman",
+                                            ),
+                                          ),
+                                          const SizedBox(height: 16),
+                                          const Text(
+                                            'An error occurred while processing your request.',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 24),
+                                          ElevatedButton(
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.red,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
                                               ),
                                             ),
-                                      );
-                                } else {
-                                  //user not exist
-                                  sp.saveDataToFirestore().then(
-                                        (value) => sp
-                                            .saveDataToSharedPreferences()
-                                            .then(
-                                              (value) => sp.setSignIn().then(
-                                                (value) {
-                                                  nextScreenReplace(
-                                                    context,
-                                                    const HomeScreen(),
-                                                  );
-                                                },
+                                            child: const Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 24.0,
+                                                  vertical: 8.0),
+                                              child: Text(
+                                                'OK',
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                ),
                                               ),
                                             ),
-                                      );
-                                }
-                              },
-                            );
-                          },
-                          child: const Text("Confirm"),
-                        ),
-                        TextButton(
-                          onPressed: () async {
-                            await FirebaseAuth.instance.verifyPhoneNumber(
-                              phoneNumber: mobile,
-                              verificationCompleted:
-                                  (PhoneAuthCredential credential) {},
-                              verificationFailed: (FirebaseAuthException e) {
-                                if (e.code == 'invalid-phone-number') {
-                                  print(
-                                      'The provided phone number is not valid.');
-                                }
-                              },
-                              codeSent: (String verificationId,
-                                  int? forceResendingToken) {
-                                print('Resend Code: $verificationId');
-                              },
-                              codeAutoRetrievalTimeout:
-                                  (String verificationId) {},
-                            );
-                          },
-                          child: const Text("Resend Code"),
-                        ),
-                      ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors
+                                  .blue, // Change the button background color
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    16), // Change the button border radius
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 32,
+                                  vertical: 16), // Change the button padding
+                            ),
+                            child: const Text(
+                              "Confirm",
+                              style: TextStyle(
+                                fontFamily: "Times New Roman",
+                                fontSize: 18, // Change the button text size
+                                fontWeight: FontWeight
+                                    .bold, // Change the button text weight
+                                color: Colors
+                                    .white, // Change the button text color
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          TextButton(
+                            onPressed: () async {
+                              try {
+                                await FirebaseAuth.instance.verifyPhoneNumber(
+                                  phoneNumber: mobile,
+                                  verificationCompleted:
+                                      (PhoneAuthCredential credential) {},
+                                  verificationFailed:
+                                      (FirebaseAuthException e) {
+                                    if (e.code == 'invalid-phone-number') {
+                                      print(
+                                          'The provided phone number is not valid.');
+                                    } else {
+                                      print(
+                                          'Verification failed. Code: ${e.code}. Message: ${e.message}');
+                                    }
+                                  },
+                                  codeSent: (String verificationId,
+                                      int? forceResendingToken) {
+                                    print('OTP code sent successfully!');
+                                    verificationId = verificationId;
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          'OTP code sent successfully!',
+                                          style: TextStyle(
+                                            fontFamily: "Times New Roman",
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  codeAutoRetrievalTimeout:
+                                      (String verificationId) {},
+                                );
+                              } on FirebaseAuthException catch (e) {
+                                print(
+                                    'Error sending OTP code: ${e.code}. Message: ${e.message}');
+                              }
+                            },
+                            child: const Text("Resend OTP"),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },

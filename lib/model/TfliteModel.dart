@@ -366,19 +366,78 @@ class _TfliteModelState extends State<TfliteModel> {
     );
     File image = File(pickedFile!.path);
     imageClassification(image);
-    final Reference storageRef = FirebaseStorage.instance
-        .ref('blocauth-5963f.appspot.com')
-        .child('images/${DateTime.now().millisecondsSinceEpoch}.jpg');
-
-    final TaskSnapshot uploadTask =
-        await storageRef.putFile(File(pickedFile.path));
-    // Show snackbar after upload is complete
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content:
-            Text('The image uploaded successfully Thank you for your help.'),
+    final confirmed = await showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        child: Container(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Upload Image?',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontFamily: "Times New Roman",
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              const Text(
+                'Do you want to upload this image to our database to improve our app?',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontFamily: "Times New Roman",
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  TextButton(
+                    child: const Text(
+                      'Cancel',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    onPressed: () => Navigator.of(context).pop(false),
+                  ),
+                  TextButton(
+                    child: const Text('Upload'),
+                    onPressed: () => Navigator.of(context).pop(true),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
+
+    if (confirmed == true) {
+      // User confirmed upload, proceed with image classification and upload
+      File image = File(pickedFile.path);
+      imageClassification(image);
+      final Reference storageRef = FirebaseStorage.instance
+          .ref('blocauth-5963f.appspot.com')
+          .child('images/${DateTime.now().millisecondsSinceEpoch}.jpg');
+
+      final TaskSnapshot uploadTask =
+          await storageRef.putFile(File(pickedFile.path));
+      // Show snackbar after upload is complete
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content:
+              Text('The image uploaded successfully. Thank you for your help.'),
+        ),
+      );
+    }
   }
 
   Future take() async {
@@ -388,17 +447,82 @@ class _TfliteModelState extends State<TfliteModel> {
     );
     File image = File(pickedFile!.path);
     imageClassification(image);
-    final Reference storageRef = FirebaseStorage.instance
-        .ref('blocauth-5963f.appspot.com')
-        .child('images/${DateTime.now().millisecondsSinceEpoch}.jpg');
-
-    final TaskSnapshot uploadTask =
-        await storageRef.putFile(File(pickedFile.path));
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content:
-            Text('The image uploaded successfully Thank you for your help.'),
+    final confirmed = await showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        child: Container(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Upload Image?',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Times New Roman",
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              const Text(
+                'Do you want to upload this image to our database to improve our app?',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontFamily: "Times New Roman",
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  TextButton(
+                    child: const Text(
+                      'Cancel',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    onPressed: () => Navigator.of(context).pop(false),
+                  ),
+                  TextButton(
+                    child: const Text(
+                      'Upload',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    onPressed: () => Navigator.of(context).pop(true),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
+
+    if (confirmed == true) {
+      // User confirmed upload, proceed with image classification and upload
+      File image = File(pickedFile.path);
+      imageClassification(image);
+      final Reference storageRef = FirebaseStorage.instance
+          .ref('blocauth-5963f.appspot.com')
+          .child('images/${DateTime.now().millisecondsSinceEpoch}.jpg');
+
+      final TaskSnapshot uploadTask =
+          await storageRef.putFile(File(pickedFile.path));
+      // Show snackbar after upload is complete
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content:
+              Text('The image uploaded successfully. Thank you for your help.'),
+        ),
+      );
+    }
   }
 }
