@@ -319,12 +319,20 @@ class _TfliteModelState extends State<TfliteModel> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                         ),
-                        child: const Text(
-                          "Show doctors",
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontFamily: "Times New Roman",
-                              color: Colors.black87),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Icon(Icons.person, color: Colors.black87),
+                            SizedBox(width: 10),
+                            Text(
+                              "Show doctors",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontFamily: "Times New Roman",
+                                color: Colors.black87,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -387,7 +395,7 @@ class _TfliteModelState extends State<TfliteModel> {
               ),
               const SizedBox(height: 16.0),
               const Text(
-                'Do you want to upload this image to our database to improve our app?',
+                'Would you like to upload this image to our database in order to improve our app?',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 18.0,
@@ -468,7 +476,7 @@ class _TfliteModelState extends State<TfliteModel> {
               ),
               const SizedBox(height: 16.0),
               const Text(
-                'Do you want to upload this image to our database to improve our app?',
+                'Would you like to upload this image to our database in order to improve our app?',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 18.0,
