@@ -28,8 +28,6 @@ class FirebaseDataScreen extends StatelessWidget {
       ),
     );
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
-    final List<String> cities = ['New York', 'London', 'Paris', 'Sydney'];
-
     return WillPopScope(
       onWillPop: () async {
         Navigator.of(context).pushReplacement(
