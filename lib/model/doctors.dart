@@ -76,6 +76,7 @@ class FirebaseDataScreen extends StatelessWidget {
                     child: CircularProgressIndicator(),
                   );
                 }
+
                 final List<DocumentSnapshot> documents = snapshot.data!.docs;
                 return ListView.builder(
                   itemCount: documents.length,
@@ -85,6 +86,7 @@ class FirebaseDataScreen extends StatelessWidget {
                     final String name = data['name'] ?? '';
                     final String phone = data['phone'] ?? '';
                     final String city = data['city'] ?? '';
+
                     final GeoPoint location = data['location'] as GeoPoint;
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
