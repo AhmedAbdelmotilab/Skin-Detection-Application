@@ -5,8 +5,36 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 
-class FirebaseDataScreen extends StatelessWidget {
+class FirebaseDataScreen extends StatefulWidget {
   const FirebaseDataScreen({Key? key}) : super(key: key);
+
+  @override
+  _FirebaseDataScreenState createState() => _FirebaseDataScreenState();
+}
+
+class _FirebaseDataScreenState extends State<FirebaseDataScreen> {
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final List<String> dropdownItems = ['alexandria', 'cairo'];
+  String selectedDropdownItem = 'alexandria';
+  late Stream<QuerySnapshot> doctorsStream;
+
+  @override
+  void initState() {
+    super.initState();
+    doctorsStream = firestore
+        .collection('doctors')
+        .where('city', isEqualTo: selectedDropdownItem)
+        .snapshots();
+  }
+
+  void updateStream() {
+    setState(() {
+      doctorsStream = firestore
+          .collection('doctors')
+          .where('city', isEqualTo: selectedDropdownItem)
+          .snapshots();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +55,7 @@ class FirebaseDataScreen extends StatelessWidget {
         fontWeight: FontWeight.bold,
       ),
     );
-    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
     return WillPopScope(
       onWillPop: () async {
         Navigator.of(context).pushReplacement(
@@ -52,6 +80,51 @@ class FirebaseDataScreen extends StatelessWidget {
               ),
             ),
           ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: DropdownButton<String>(
+                value: selectedDropdownItem,
+                items: dropdownItems
+                    .map((item) => DropdownMenuItem<String>(
+                          value: item,
+                          child: Text(
+                            item,
+                            style: TextStyle(
+                              fontFamily: 'Times New Roman',
+                              fontSize: 18,
+                              color: Colors.grey[800],
+                            ),
+                          ),
+                        ))
+                    .toList(),
+                onChanged: (value) {
+                  // Update the selected item
+                  setState(() {
+                    selectedDropdownItem = value!;
+                    updateStream();
+                  });
+                },
+                icon: Icon(
+                  Icons.keyboard_arrow_down,
+                  color: Colors.grey[800],
+                ),
+                iconSize: 24,
+                style: TextStyle(
+                  fontFamily: 'Times New Roman',
+                  fontSize: 18,
+                  color: Colors.grey[800],
+                ),
+                dropdownColor: Colors.grey[100],
+                elevation: 8,
+                borderRadius: BorderRadius.circular(8),
+                underline: Container(
+                  height: 0,
+                  color: Colors.transparent,
+                ),
+              ),
+            ),
+          ],
         ),
         body: Container(
           decoration: const BoxDecoration(
@@ -69,7 +142,7 @@ class FirebaseDataScreen extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: StreamBuilder<QuerySnapshot>(
-              stream: firestore.collection('doctors').snapshots(),
+              stream: doctorsStream,
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return const Center(
