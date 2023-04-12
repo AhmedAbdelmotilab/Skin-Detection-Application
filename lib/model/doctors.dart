@@ -28,6 +28,8 @@ class FirebaseDataScreen extends StatelessWidget {
       ),
     );
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    final List<String> cities = ['New York', 'London', 'Paris', 'Sydney'];
+
     return WillPopScope(
       onWillPop: () async {
         Navigator.of(context).pushReplacement(
@@ -76,7 +78,6 @@ class FirebaseDataScreen extends StatelessWidget {
                     child: CircularProgressIndicator(),
                   );
                 }
-
                 final List<DocumentSnapshot> documents = snapshot.data!.docs;
                 return ListView.builder(
                   itemCount: documents.length,
@@ -85,6 +86,7 @@ class FirebaseDataScreen extends StatelessWidget {
                         documents[index].data() as Map<String, dynamic>;
                     final String name = data['name'] ?? '';
                     final String phone = data['phone'] ?? '';
+                    final String city = data['city'] ?? '';
                     final GeoPoint location = data['location'] as GeoPoint;
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
@@ -178,6 +180,28 @@ class FirebaseDataScreen extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 4.0),
+                              Row(
+                                children: [
+                                  const Text(
+                                    'City: ',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontFamily: "Times New Roman",
+                                      color: Colors.blueGrey,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    city,
+                                    style: const TextStyle(
+                                      fontFamily: "Times New Roman",
+                                      fontSize: 16,
+                                      color: Colors.blueGrey,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
