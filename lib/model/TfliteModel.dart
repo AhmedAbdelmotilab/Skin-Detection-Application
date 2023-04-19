@@ -183,8 +183,6 @@ class _TfliteModelState extends State<TfliteModel> {
                                 final label = result['label'];
                                 final confidence = result['confidence'];
                                 final isAhmed = label == 'Eczema';
-                                const isE =
-                                    'A healthcare provider will diagnose eczema after a physical exam, where they can take a close look at your skin';
                                 final labelText =
                                     '$label - ${confidence.toStringAsFixed(2)}';
                                 return Column(
@@ -259,36 +257,6 @@ class _TfliteModelState extends State<TfliteModel> {
                                               ],
                                               begin: Alignment.topLeft,
                                               end: Alignment.bottomRight,
-                                            ),
-                                          ),
-                                          child: SizedBox(
-                                            height: 150,
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: const [
-                                                Text(
-                                                  "Diagnosis",
-                                                  style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontFamily: "Arial",
-                                                    fontSize: 22,
-                                                    fontWeight: FontWeight.bold,
-                                                    letterSpacing: 1.2,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  isE,
-                                                  style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontFamily:
-                                                        "Times New Roman",
-                                                    fontSize: 16.5,
-                                                    fontWeight: FontWeight.bold,
-                                                    letterSpacing: 1.2,
-                                                  ),
-                                                ),
-                                              ],
                                             ),
                                           ),
                                         ),

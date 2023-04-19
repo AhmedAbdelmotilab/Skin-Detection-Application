@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:blocauth/model/TfliteModel.dart';
 import 'package:blocauth/utils/next_screen.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +16,15 @@ class FirebaseDataScreen extends StatefulWidget {
 
 class _FirebaseDataScreenState extends State<FirebaseDataScreen> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  final List<String> dropdownItems = ['alexandria', 'cairo'];
-  String selectedDropdownItem = 'alexandria';
+  final List<String> dropdownItems = [
+    'Alexandria',
+    'Cairo',
+    'Giza',
+    'Gharbia',
+    'Behara',
+    'Dakahlia'
+  ];
+  String selectedDropdownItem = 'Alexandria';
   late Stream<QuerySnapshot> doctorsStream;
 
   @override
