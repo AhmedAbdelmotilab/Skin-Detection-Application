@@ -68,7 +68,7 @@ class _FirebaseDataScreenState extends State<FirebaseDataScreen> {
     return WillPopScope(
       onWillPop: () async {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const TfliteModel()),
+          MaterialPageRoute(builder: (context) =>  const TfliteModel()),
         );
         return false;
       },

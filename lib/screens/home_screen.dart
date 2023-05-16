@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, prefer_const_constructors
 
 import 'dart:io';
 
@@ -9,6 +9,7 @@ import 'package:blocauth/utils/next_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:blocauth/screens/About_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -80,6 +81,14 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.info),
+              onPressed: () {
+                nextScreenReplace(context, const AboutPage());
+              },
+            ),
+          ],
         ),
         body: Container(
           decoration: const BoxDecoration(

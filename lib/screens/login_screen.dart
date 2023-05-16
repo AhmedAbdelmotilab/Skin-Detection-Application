@@ -1,5 +1,4 @@
 // ignore_for_file: unused_field
-
 import 'package:blocauth/provider/internet_provider.dart';
 import 'package:blocauth/provider/sign_in_provider.dart';
 import 'package:blocauth/screens/home_screen.dart';
