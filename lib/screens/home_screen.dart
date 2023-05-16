@@ -152,56 +152,62 @@ class _HomeScreenState extends State<HomeScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    ElevatedButton.icon(
-                      onPressed: () {
-                        sp.userSignOut();
-                        nextScreenReplace(context, const LoginScreen());
-                      },
-                      icon: const Icon(Icons.logout),
-                      label: const Text(
-                        "Logout",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: "Times New Roman",
+                    Column(
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            nextScreenReplace(context, const TfliteModel());
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.deepOrange,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 30,
+                              vertical: 15,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            elevation: 5,
+                          ),
+                          child: const Text(
+                            "Test Your Skin",
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontFamily: "Times New Roman",
+                            ),
+                          ),
                         ),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.red,
-                        backgroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 30,
-                          vertical: 15,
+                        SizedBox(height: 15),
+                        ElevatedButton.icon(
+                          onPressed: () {
+                            sp.userSignOut();
+                            nextScreenReplace(context, const LoginScreen());
+                          },
+                          icon: const Icon(Icons.logout),
+                          label: const Text(
+                            "Logout",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: "Times New Roman",
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.red,
+                            backgroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 30,
+                              vertical: 15,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            elevation: 5,
+                          ),
                         ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        elevation: 5,
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        nextScreenReplace(context, const TfliteModel());
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.deepOrange,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 30,
-                          vertical: 15,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        elevation: 5,
-                      ),
-                      child: const Text(
-                        "Test Your Skin",
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                          fontFamily: "Times New Roman",
-                        ),
-                      ),
-                    ),
+                        // Adds a spacing of 10 pixels between the buttons
+                      ],
+                    )
                   ],
                 ),
                 const SizedBox(height: 100),
