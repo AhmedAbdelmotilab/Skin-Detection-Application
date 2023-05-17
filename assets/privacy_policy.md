@@ -1,6 +1,6 @@
 **Privacy Policy**
 
-AhmedAbdelhakim,MohamedFathy,LoaaAhmed,Arsany,MariaMina,MahmoudMostafa built the Skin-Detection app as a Freemium app. This SERVICE is provided by AhmedAbdelhakim,MohamedFathy,LoaaAhmed,Arsany,MariaMina,MahmoudMostafa at no cost and is intended for use as is.
+AhmedAbdelhakim,LoaaAhmed,MohamedFathy,Arsany,MariaMina,MahmoudMostafa built the Skin-Detection app as a Freemium app. This SERVICE is provided by AhmedAbdelhakim,MohamedFathy,LoaaAhmed,Arsany,MariaMina,MahmoudMostafa at no cost and is intended for use as is.
 
 This page is used to inform visitors regarding my policies with the collection, use, and disclosure of Personal Information if anyone decided to use my Service.
 

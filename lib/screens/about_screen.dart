@@ -53,7 +53,7 @@ class AboutPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
               Container(
                 padding: const EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
@@ -80,7 +80,7 @@ class AboutPage extends StatelessWidget {
                     ),
                     SizedBox(height: 16.0),
                     Text(
-                      'Skin disease detection app, utilizing deep learning algorithms, seeks collaboration with dermatologists in six cities to enhance accuracy. Doctors can integrate the app into their practice, remotely evaluate patient-submitted images, and expand reach for efficient diagnosis and management.',
+                      'Our application helps you to know the type of skin disease you have, as it presents you with several possible options in possible proportions that help you and your doctor limit the possible options and determine the disease faster and more accurately.',
                       style: TextStyle(
                         fontSize: 16.0,
                         color: Color.fromARGB(255, 126, 126, 126),
@@ -91,7 +91,7 @@ class AboutPage extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 10),
               Container(
                 padding: const EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
@@ -118,7 +118,7 @@ class AboutPage extends StatelessWidget {
                     ),
                     SizedBox(height: 16.0),
                     Text(
-                      'This app uses computer vision and machine learning algorithms to analyze images of skin and detect potential skin issues such as moles or lesions. It is intended to be used as an aid for self-examination and does not replace a doctor\'s advice. ',
+                      'We are a group of students who are passionate about making applications that make people is lives better and easier, so we designed this application just for you.',
                       style: TextStyle(
                         fontSize: 16.0,
                         color: Color.fromARGB(255, 126, 126, 126),
@@ -129,7 +129,7 @@ class AboutPage extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 10),
               Container(
                 padding: const EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
@@ -160,7 +160,7 @@ class AboutPage extends StatelessWidget {
                         Icon(Icons.mail_outline_rounded, size: 22),
                         SizedBox(width: 10),
                         Text(
-                          'skin_detection_app@gmail.com',
+                          'AhmedAbdelmotilab@gmail.com',
                           style: TextStyle(
                             fontSize: 16.0,
                             color: Color.fromARGB(255, 126, 126, 126),
@@ -175,7 +175,22 @@ class AboutPage extends StatelessWidget {
                         Icon(Icons.phone_outlined, size: 22),
                         SizedBox(width: 10),
                         Text(
-                          '+1 555-123-4567',
+                          '+20 155-313-0965',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Color.fromARGB(255, 126, 126, 126),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: const [
+                        Icon(Icons.location_on, size: 22),
+                        SizedBox(width: 10),
+                        Text(
+                          'Alexandria,Egypt',
                           style: TextStyle(
                             fontSize: 16.0,
                             color: Color.fromARGB(255, 126, 126, 126),
