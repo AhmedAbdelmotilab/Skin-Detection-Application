@@ -39,10 +39,10 @@ class _TfliteModelState extends State<TfliteModel> {
   Future imageClassification(File image) async {
     final List? recognitions = await Tflite.runModelOnImage(
       path: image.path,
-      numResults: 10,
-      threshold: 0.05,
-      imageMean: 127.5,
-      imageStd: 127.5,
+      numResults: 4,
+      threshold: 0.0909,
+      imageMean: 0,
+      imageStd: 255,
     );
     setState(() {
       _results = recognitions!;
