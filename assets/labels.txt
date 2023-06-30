@@ -1,11 +1,11 @@
-'Atopic Dermatitis'
-'Basal Cell Carcinoma'
-'Benign Keratosis-like Lesions'
-'Eczema'
-'Melanocytic Nevi'
-'Melanoma'
-'Normal Skin'
-'Psoriasis pictures Lichen Planus and related diseases'
+'Atopic Dermatitis'0
+'Basal Cell Carcinoma'1
+'Benign Keratosis-like Lesions'2
+'Eczema'3
+'Melanocytic Nevi'4
+'Melanoma'5
+'Normal Skin'6
+'Psoriasis pictures Lichen Planus and related diseases'7
 'Seborrheic Keratoses and other Benign Tumors'
 'Tinea Ringworm Candidiasis and other Fungal Infections'
 'Warts Molluscum and other Viral Infections'

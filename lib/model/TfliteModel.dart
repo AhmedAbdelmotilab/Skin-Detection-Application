@@ -323,11 +323,69 @@ class _TfliteModelState extends State<TfliteModel> {
               onTap: pickImage,
             ),
             SpeedDialChild(
-              backgroundColor: Colors.pinkAccent,
+              backgroundColor: Colors.pink,
               foregroundColor: Colors.white,
               child: const Icon(Icons.camera),
-              label: "Take Image",
-              onTap: take,
+              label: 'Take Image',
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return Dialog(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.orange.withOpacity(0.7),
+                              Colors.pink.withOpacity(0.7),
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            stops: const [0.0, 1.0],
+                            tileMode: TileMode.clamp,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: SizedBox(
+                          width: 300, // Adjust the width as needed
+                          height: 300, // Adjust the height as needed
+                          child: Stack(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.asset(
+                                  'assets/camera.png',
+                                  width: 400, // Adjust the width as needed
+                                  height: 400, // Adjust the height as needed
+                                  fit: BoxFit.fill, // Adjust the fit as needed
+                                ),
+                              ),
+                              Positioned(
+                                top: 16,
+                                right: 16,
+                                child: IconButton(
+                                  icon: const Icon(
+                                    Icons.close,
+                                    color: Colors.black,
+                                    size: 32,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    take();
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
             ),
           ],
         ),
@@ -481,7 +539,6 @@ class _TfliteModelState extends State<TfliteModel> {
         ),
       ),
     );
-
     if (confirmed == true) {
       // User confirmed upload, proceed with image classification and upload
       File image = File(pickedFile.path);
