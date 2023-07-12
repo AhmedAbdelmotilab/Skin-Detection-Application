@@ -9,6 +9,7 @@
 # User Interface 
 -Home Screen
 <img width="169" alt="Picture1" src="https://github.com/AhmedAbdelmotilab/Skin-Detection-Application-/assets/108872867/5ac04dd4-a015-4df0-9397-983c1d98dfc2">
+<br/>
 -Phone Registration 
 <img width="169" alt="Picture2" src="https://github.com/AhmedAbdelmotilab/Skin-Detection-Application-/assets/108872867/403bf802-f81c-4a8f-ba94-41cf871c8031">
 -OTP Code
