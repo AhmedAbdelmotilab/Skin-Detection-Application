@@ -1,2 +1,9 @@
-#  <img width="1156" alt="image" src="https://github.com/AhmedAbdelmotilab/Skin-Detection-Application-/assets/108872867/418f9620-f0a7-43ae-bff3-76baa56f1e7e">
-<img width="162" alt="image" src="https://github.com/AhmedAbdelmotilab/Skin-Detection-Application-/assets/108872867/3ffcf1a3-aca5-4715-8737-9e72226faaa2">
+# Welcome to Skin Detection App!
+
+- Identifying the possible skin diseases based on their skin images is introduced in this project.
+- Deep learning algorithms are utilized to analyze uploaded skin images and provide a list of possible diseases.
+- Healthcare professionals, including doctors and dermatologists are provided user access.
+- Allow the admin to easily update the backend of the app using Firebase, which can improve the app's functionality and user experience.
+
+
+# User Interface 
